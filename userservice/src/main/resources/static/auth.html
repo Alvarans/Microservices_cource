@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="css/auth.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorization</title>
+
+</head>
+<body>
+<div class="steam-box">
+    <h2>Login</h2>
+    <div class="form">
+    <form id="myform">
+        <div class="input-box">
+            <input type="text" name="login" id="login" required>
+            <label for="login">Username</label>
+        </div>
+
+        <div class="input-box">
+            <input type="password" name="password1"  id="password" required>
+            <label>Password</label>
+            <div id="toggle" onclick=" showHide();"></div>
+        </div>
+        <button type="submit" class="but">Submit</button>
+    </form>
+    </div>
+</div>
+<script src="js/auth.js"></script>
+</body>
+</html>

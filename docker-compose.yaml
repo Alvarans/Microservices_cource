@@ -1,0 +1,87 @@
+version: "1.0"
+name: course
+
+services:
+    postgres:
+        image: 'postgres:latest'
+        container_name: 'bdcource-postgres-2'
+        environment:
+            - 'POSTGRES_DB=filmcritic'
+            - 'POSTGRES_PASSWORD=pgpas8denian58'
+            - 'POSTGRES_USER=denian'
+        restart: always
+        ports:
+            - 5432:5432
+        networks:
+            - my-network
+    userservice:
+        container_name: userservice_app
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: userservice:v1
+        ports:
+            - '8084:8084'
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/filmcritic
+            - SPRING_DATASOURCE_USERNAME=denian
+            - SPRING_DATASOURCE_PASSWORD=pgpas8denian58
+            - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        networks:
+            - my-network
+        depends_on:
+            - postgres
+    filmservice:
+        container_name: filmservice_app
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: filmservice:v1
+        ports:
+            - '8082:8082'
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/filmcritic
+            - SPRING_DATASOURCE_USERNAME=denian
+            - SPRING_DATASOURCE_PASSWORD=pgpas8denian58
+            - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        networks:
+            - my-network
+        depends_on:
+            - postgres
+    reviewservice:
+        container_name: reviewservice_app
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: reviewservice:v1
+        ports:
+            - '8083:8083'
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/filmcritic
+            - SPRING_DATASOURCE_USERNAME=denian
+            - SPRING_DATASOURCE_PASSWORD=pgpas8denian58
+            - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        networks:
+            - my-network
+        depends_on:
+            - postgres
+    rateservice:
+        container_name: rateservice_app
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: rateservice:v1
+        ports:
+            - '8081:8081'
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/filmcritic
+            - SPRING_DATASOURCE_USERNAME=denian
+            - SPRING_DATASOURCE_PASSWORD=pgpas8denian58
+            - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        networks:
+            - my-network
+        depends_on:
+            - postgres
+networks:
+  my-network:
+    driver: bridge
